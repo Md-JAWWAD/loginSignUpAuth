@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import routered from "./Route/Route.js";
+import routered from "./Route/user.route.js";
 import env from "dotenv";
 env.config();
 
