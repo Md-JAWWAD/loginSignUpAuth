@@ -41,8 +41,7 @@ import jwt from "jsonwebtoken";
 // };
 
 const allUser = async (req, res) => {
-  let getAllUsersUsers;
-  getAllUsersUsers = await model.find({});
+  const getAllUsersUsers = await model.find({});
   if (getAllUsers) return res.send(getAllUsers);
 };
 
