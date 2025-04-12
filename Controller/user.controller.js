@@ -81,13 +81,13 @@ const userSignup = async (req, res) => {
 
     delete userStored.password;
 
-    // // Remove password from response
-    // const userResponse = {
-    //   _id: userStored._id,
-    //   name: userStored.name,
-    //   email: userStored.email,
-    //   createdAt: userStored.createdAt,
-    // };
+// Remove password from response
+    const userResponse = {
+      _id: userStored._id,
+     name: userStored.name,
+     email: userStored.email,
+  createdAt: userStored.createdAt,
+  };
 
     return res.status(201).json({
       success: true,
