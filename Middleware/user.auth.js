@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
 
 const userVerify = async (req, res, next) => {
+  let token;
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
-    let token = req.headers.authorization.split(" ")[1];
+   token = req.headers.authorization.split(" ")[1];
   }
 
   if (!token) {
@@ -16,7 +17,7 @@ const userVerify = async (req, res, next) => {
   }
 
   try {
-    let decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (decoded) {
       next();
     }
