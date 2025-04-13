@@ -1,4 +1,5 @@
 import model from "../Model/user.model.js";
+import env from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -41,7 +42,7 @@ import jwt from "jsonwebtoken";
 // };
 
 const allUser = async (req, res) => {
-  const getAllUsersUsers = await model.find({});
+  const getAllUsers = await model.find({});
   if (getAllUsers) return res.send(getAllUsers);
 };
 
@@ -80,13 +81,13 @@ const userSignup = async (req, res) => {
 
     delete userStored.password;
 
-// Remove password from response
+    // Remove password from response
     const userResponse = {
       _id: userStored._id,
-     name: userStored.name,
-     email: userStored.email,
-  createdAt: userStored.createdAt,
-  };
+      name: userStored.name,
+      email: userStored.email,
+      createdAt: userStored.createdAt,
+    };
 
     return res.status(201).json({
       success: true,
@@ -117,21 +118,37 @@ const userLogin = async (req, res) => {
       password,
       userDataforLogin.password
     );
+
     if (!comparePassword) {
       return res.json({ message: "Invalid Password" });
-    } else {
-      return res.json({ message: "Login Successfull" });
     }
 
-    let token = jwt.sign(
-      { userId: userDataforLogin._id },
-      { email: userDataforLogin.email },
+    // let token = jwt.sign(
+    //   { userId: userDataforLogin._id },
+    //   { email: userDataforLogin.email },
+    //   process.env.JWT_SECRET_KEY
+    // );
+
+    var token = jwt.sign(
+      {
+        email: userDataforLogin.email,
+      },
       process.env.JWT_SECRET_KEY
     );
 
-    res.send(token);
+    return res.status(200).json({
+      success: true,
+      message: "Login Successfull",
+      token,
+      // user: {
+      //   id: user._id,
+      //   name: user.name,
+      //   email: user.email
+      // }
+    });
   } catch (error) {
-    res.json({ message: `${error}` });
+    console.log("Login Error");
+    return res.json({ message: `${error}` });
   }
 };
 
